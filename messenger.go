@@ -13,6 +13,10 @@ const (
 	ProfileURL = "https://graph.facebook.com/v2.6/"
 )
 
+var (
+	LogMode bool
+)
+
 // Options are the settings used when creating a Messenger client.
 type Options struct {
 	// Verify sets whether or not to be in the "verify" mode. Used for
@@ -25,6 +29,8 @@ type Options struct {
 	Token string
 	// WebhookURL is where the Messenger client should listen for webhook events. Leaving the string blank implies a path of "/".
 	WebhookURL string
+	// LogMode mode
+    LogMode bool
 }
 
 // MessageHandler is a handler used for responding to a message containing text.
@@ -59,6 +65,8 @@ func New(mo Options) *Messenger {
 
 	m.verifyHandler = newVerifyHandler(mo.VerifyToken)
 	m.mux.HandleFunc(mo.WebhookURL, m.handle)
+	
+	LogMode = mo.LogMode
 
 	return m
 }

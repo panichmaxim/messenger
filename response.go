@@ -167,6 +167,11 @@ func (r *Response) GenericTemplate(text string, elements *[]StructuredMessageEle
 	client := &http.Client{}
 
 	resp, err := client.Do(req)
+	
+	if (LogMode) {
+		fmt.Println(resp)
+	}
+	
 	defer resp.Body.Close()
 
 	return err
@@ -222,6 +227,7 @@ type StructuredMessageElement struct {
 // StructuredMessageButton is a response containing buttons
 type StructuredMessageButton struct {
 	Type  string `json:"type"`
-	URL   string `json:"url"`
+	URL   string `json:"url,omitempty"`
 	Title string `json:"title"`
+	Payload string `json:"payload,omitempty"`
 }
